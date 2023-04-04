@@ -244,6 +244,17 @@ else
 fi
 sudo python3 setup.py install
 
+if [ ! -d "$SRC_DIR/openvaf" ]; then
+	echo ">>>> Installing openvaf"
+	wget https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_2_0_linux_amd64.tar.xz
+	cd "$SRC_DIR/openvaf" || exit
+else
+	echo ">>>> Updating yci"
+	cd "$SRC_DIR/openvaf" || exit
+fi
+#this lines moves the exectuable opnevaf to the bin folder
+tar -xvf openvaf_23_2_0_linux_amd64.tar.xz
+sudo cp openvaf /usr/bin
 
 # Fix paths in xschemrc to point to correct PDK directory
 # -------------------------------------------------------
