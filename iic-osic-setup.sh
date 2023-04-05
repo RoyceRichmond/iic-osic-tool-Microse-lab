@@ -244,12 +244,17 @@ else
 fi
 sudo python3 setup.py install
 
+# Install/update openvaf
+# --------------------
+
 if [ ! -d "$SRC_DIR/openvaf" ]; then
 	echo ">>>> Installing openvaf"
+	mkdir "$SRC_DIR/openvaf"
+	cd "$SRC_DIR/openvaf"
 	wget https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_2_0_linux_amd64.tar.xz
 	cd "$SRC_DIR/openvaf" || exit
 else
-	echo ">>>> Updating yci"
+	echo ">>>> Updating openvaf"
 	cd "$SRC_DIR/openvaf" || exit
 fi
 #this lines moves the exectuable opnevaf to the bin folder
