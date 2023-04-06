@@ -230,6 +230,23 @@ if [ ! -d  "$SRC_DIR/ngspice-$NGSPICE_VERSION" ]; then
 	make -j"$(nproc)" && sudo make install
 fi
 
+# Install/update openvaf
+# --------------------
+if [ ! -d "$SRC_DIR/openvaf" ]; then
+	echo ">>>> Installing openvaf"
+	cd "$SRC_DIR" || exit
+	wget https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_2_0_linux_amd64.tar.xz
+	mkdir openvaf
+	tar -xf openvaf_23_2_0_linux_amd64.tar.xz -C openvaf
+	rm openvaf_23_2_0_linux_amd64.tar.xz
+	#this lines moves the exectuable opnevaf to the bin folder
+	cd openvaf
+	sudo cp openvaf /usr/bin
+else
+	echo ">>>> openvaf already installed"
+	cd "$SRC_DIR" || exit
+fi
+
 
 # Install/update spyci
 # --------------------
@@ -244,19 +261,7 @@ else
 fi
 sudo python3 setup.py install
 
-# Install/update spyci
-# --------------------
-if [ ! -d "$SRC_DIR/openvaf" ]; then
-	echo ">>>> Installing openvaf"
-	wget https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_2_0_linux_amd64.tar.xz
-	tar -xvf openvaf_23_2_0_linux_amd64.tar.xz
-	rm openvaf_23_2_0_linux_amd64.tar.xz
-	#this lines moves the exectuable opnevaf to the bin folder
-	sudo cp openvaf /usr/bin
-	cd "$SRC_DIR/openvaf" || exit
-else
-	echo ">>>> openvaf already installed"
-fi
+
 
 
 
