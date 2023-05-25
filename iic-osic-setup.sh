@@ -226,7 +226,7 @@ if [ ! -d  "$SRC_DIR/ngspice-$NGSPICE_VERSION" ]; then
 	rm ngspice-$NGSPICE_VERSION.tar
 	cd "$SRC_DIR/ngspice-$NGSPICE_VERSION" || exit
 	sudo apt install -y libxaw7-dev libfftw3-dev libreadline-dev
-	./configure --enable-osdi
+	./configure --enable-osdi --enable-xspice
 	make -j"$(nproc)" && sudo make install
 fi
 
