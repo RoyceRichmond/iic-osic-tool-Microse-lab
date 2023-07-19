@@ -34,7 +34,7 @@ export SCRIPT_DIR="$my_dir"
 export NGSPICE_VERSION=39
 # This selects which sky130 PDK flavor (A=sky130A, B=sky130B, all=both)  is installed
 export OPEN_PDK_ARGS="--with-sky130-variants=all"
-export MY_PDK=sky130A
+export MY_PDK=sky130B
 
 # ---------------
 # Now go to work!
@@ -116,10 +116,10 @@ fi
 # ---------------
 cd "$OPENLANE_DIR" || exit
 echo ">>>> Pulling latest OpenLane version"
-sudo make pull-openlane
+make pull-openlane
 echo ">>>> Creating/updating PDK"
 rm -rf "$PDK_ROOT/skywater-pdk" # FIXME WA otherwise `git clone` fails
-sudo make pdk
+make pdk
 
 
 # Apply SPICE modellib reducer
@@ -255,19 +255,19 @@ sudo python3 setup.py install
 # Install/update openvaf
 # --------------------
 
-#if [ ! -d "$SRC_DIR/openvaf" ]; then
-#	echo ">>>> Installing openvaf"
-#	mkdir "$SRC_DIR/openvaf"
-#	cd "$SRC_DIR/openvaf"
-#	wget https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_2_0_linux_amd64.tar.xz
-#	cd "$SRC_DIR/openvaf" || exit
-#else
-#	echo ">>>> Updating openvaf"
-#	cd "$SRC_DIR/openvaf" || exit
-#fi
+if [ ! -d "$SRC_DIR/openvaf" ]; then
+	echo ">>>> Installing openvaf"
+	mkdir "$SRC_DIR/openvaf"
+	cd "$SRC_DIR/openvaf"
+	wget https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_2_0_linux_amd64.tar.xz
+	cd "$SRC_DIR/openvaf" || exit
+else
+	echo ">>>> Updating openvaf"
+	cd "$SRC_DIR/openvaf" || exit
+fi
 #this lines moves the exectuable opnevaf to the bin folder
-#tar -xvf openvaf_23_2_0_linux_amd64.tar.xz
-#sudo cp openvaf /usr/bin
+tar -xvf openvaf_23_2_0_linux_amd64.tar.xz
+sudo cp openvaf /usr/bin
 
 # Fix paths in xschemrc to point to correct PDK directory
 # -------------------------------------------------------
