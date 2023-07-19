@@ -116,10 +116,10 @@ fi
 # ---------------
 cd "$OPENLANE_DIR" || exit
 echo ">>>> Pulling latest OpenLane version"
-make pull-openlane
+sudo make pull-openlane
 echo ">>>> Creating/updating PDK"
 rm -rf "$PDK_ROOT/skywater-pdk" # FIXME WA otherwise `git clone` fails
-make pdk
+sudo make pdk
 
 
 # Apply SPICE modellib reducer
