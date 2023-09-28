@@ -40,10 +40,10 @@ export MY_PDK=sky130B
 # Now go to work!
 # ---------------
 #updating resource list (By Raul Perez - Microse)
-sudo apt update
-sudo apt install software-properties-common
+#sudo apt update
+#sudo apt install software-properties-common
 
-sudo add-apt-repository ppa:deadsnakes/ppa
+#sudo add-apt-repository ppa:deadsnakes/ppa
 
 #sudo apt install python3.9
 #sudo apt install python3.8-venv
