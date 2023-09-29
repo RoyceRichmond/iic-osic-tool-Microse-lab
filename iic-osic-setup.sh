@@ -220,7 +220,7 @@ make -j"$(nproc)" && sudo make install
 if [ ! -d  "$SRC_DIR/ngspice-$NGSPICE_VERSION" ]; then
 	echo ">>>> Installing ngspice-$NGSPICE_VERSION"
 	cd "$SRC_DIR" || exit
-	wget https://sourceforge.net/projects/ngspice/files/ng-spice-rework/$NGSPICE_VERSION/ngspice-$NGSPICE_VERSION.tar.gz
+	wget --inet4-only https://sourceforge.net/projects/ngspice/files/ng-spice-rework/old-releases/$NGSPICE_VERSION/ngspice-$NGSPICE_VERSION.tar.gz
 	gunzip ngspice-$NGSPICE_VERSION.tar.gz
 	tar xf ngspice-$NGSPICE_VERSION.tar
 	rm ngspice-$NGSPICE_VERSION.tar
@@ -229,24 +229,6 @@ if [ ! -d  "$SRC_DIR/ngspice-$NGSPICE_VERSION" ]; then
 	./configure --enable-osdi --enable-xspice
 	make -j"$(nproc)" && sudo make install
 fi
-
-# Install/update openvaf
-# --------------------
-
-if [ ! -d "$SRC_DIR/openvaf" ]; then
-	echo ">>>> Installing openvaf"
-	mkdir "$SRC_DIR/openvaf"
-	cd "$SRC_DIR/openvaf"
-	wget https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_2_0_linux_amd64.tar.xz
-	cd "$SRC_DIR/openvaf" || exit
-else
-	echo ">>>> Updating openvaf"
-	cd "$SRC_DIR/openvaf" || exit
-fi
-#this lines moves the exectuable opnevaf to the bin folder
-tar -xvf openvaf_23_2_0_linux_amd64.tar.xz
-sudo cp openvaf /usr/bin
-
 
 # Install/update spyci
 # --------------------
