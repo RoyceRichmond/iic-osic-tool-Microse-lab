@@ -226,26 +226,26 @@ if [ ! -d  "$SRC_DIR/ngspice-$NGSPICE_VERSION" ]; then
 	rm ngspice-$NGSPICE_VERSION.tar
 	cd "$SRC_DIR/ngspice-$NGSPICE_VERSION" || exit
 	sudo apt install -y libxaw7-dev libfftw3-dev libreadline-dev
-	./configure --enable-osdi
+	./configure --enable-osdi --enable-xspice
 	make -j"$(nproc)" && sudo make install
 fi
 
 # Install/update openvaf
 # --------------------
+
 if [ ! -d "$SRC_DIR/openvaf" ]; then
 	echo ">>>> Installing openvaf"
-	cd "$SRC_DIR" || exit
+	mkdir "$SRC_DIR/openvaf"
+	cd "$SRC_DIR/openvaf"
 	wget https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_2_0_linux_amd64.tar.xz
-	mkdir openvaf
-	tar -xf openvaf_23_2_0_linux_amd64.tar.xz -C openvaf
-	rm openvaf_23_2_0_linux_amd64.tar.xz
-	#this lines moves the exectuable opnevaf to the bin folder
-	cd openvaf
-	sudo cp openvaf /usr/bin
+	cd "$SRC_DIR/openvaf" || exit
 else
-	echo ">>>> openvaf already installed"
-	cd "$SRC_DIR" || exit
+	echo ">>>> Updating openvaf"
+	cd "$SRC_DIR/openvaf" || exit
 fi
+#this lines moves the exectuable opnevaf to the bin folder
+tar -xvf openvaf_23_2_0_linux_amd64.tar.xz
+sudo cp openvaf /usr/bin
 
 
 # Install/update spyci
