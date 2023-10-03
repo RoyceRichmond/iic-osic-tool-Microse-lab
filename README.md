@@ -73,8 +73,11 @@ Desktop
 A folder system like this one will owrk across many systems and avoid the cumbersome management of routes
 
 #### How do i fix it ?
+You will see something like this
 
-double left click on the missing symbol and then hit the browse button, then you can look for the route of the symbol, this will update the relative path.
+![alt text](https://github.com/RoyceRichmond/iic-osic-tool-Microse-lab/blob/main/Ref_md/img3.png?raw=true)
+
+Double left click on the missing symbol and then hit the browse button, then you can look for the route of the symbol, this will update the relative path.
 Now it will appear on the schematic and we can save the file with the updated route
 
 ![alt text](https://github.com/RoyceRichmond/iic-osic-tool-Microse-lab/blob/main/Ref_md/img2.png?raw=true)
