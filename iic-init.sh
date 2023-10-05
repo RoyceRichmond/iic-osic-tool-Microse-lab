@@ -34,6 +34,7 @@ else
   
 fi
 
+echo "set local_netlist_dir 1" >> $HOME/.xschem/xschemrc
 
 
 
