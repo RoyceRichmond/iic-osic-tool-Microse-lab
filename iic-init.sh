@@ -27,6 +27,7 @@ else
   then
     mkdir $custom_dir
     echo "$custom_dir was created"
+    echo "append XSCHEM_LIBRARY_PATH :$custom_dir" >> $HOME/.xschem/xschemrc
   else
     echo "continue without modifications"
   fi
