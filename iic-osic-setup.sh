@@ -31,7 +31,7 @@ export OPENLANE_DIR="$HOME/OpenLane"
 my_path=$(realpath "$0")
 my_dir=$(dirname "$my_path")
 export SCRIPT_DIR="$my_dir"
-export NGSPICE_VERSION=39
+export NGSPICE_VERSION=41
 # This selects which sky130 PDK flavor (A=sky130A, B=sky130B, all=both)  is installed
 export OPEN_PDK_ARGS="--with-sky130-variants=all"
 export MY_PDK=sky130B
@@ -242,6 +242,39 @@ else
 	git pull
 fi
 sudo python3 setup.py install
+
+# Install/update openvaf
+# --------------------
+
+if [ ! -d "$SRC_DIR/openvaf" ]; then
+	echo ">>>> Installing openvaf"
+	mkdir "$SRC_DIR/openvaf"
+	cd "$SRC_DIR/openvaf"
+	wget https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_2_0_linux_amd64.tar.xz
+	cd "$SRC_DIR/openvaf" || exit
+else
+	echo ">>>> Updating openvaf"
+	cd "$SRC_DIR/openvaf" || exit
+fi
+#this lines moves the exectuable opnevaf to the bin folder
+tar -xvf openvaf_23_2_0_linux_amd64.tar.xz
+sudo cp openvaf /usr/bin
+
+#Add library for memristor simlation
+# --------------------
+cd "$HOME"
+git clone https://github.com/barakhoffer/sky130_ngspice_reram.git
+
+cd "$HOME/sky130_ngspice_reram"
+
+./install.sh
+
+cd "$HOME/sky130_ngspice_reram/ngspice"
+sudo cp -a reram_example.spice  "$PDK_ROOT/$MY_PDK/libs.tech/ngspice/"
+sudo cp -a sky130_fd_pr_reram__reram_cell.spice  "$PDK_ROOT/$MY_PDK/libs.tech/ngspice/"
+sudo cp -a sky130_fd_pr_reram__reram_module.osdi  "$PDK_ROOT/$MY_PDK/libs.tech/ngspice/"
+sudo cp -a sky130_fd_pr_reram__reram_module.va "$PDK_ROOT/$MY_PDK/libs.tech/ngspice/"
+sudo rm -r "$HOME/sky130_ngspice_reram"
 
 
 
