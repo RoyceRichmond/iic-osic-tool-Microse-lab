@@ -39,6 +39,14 @@ export MY_PDK=sky130B
 # ---------------
 # Now go to work!
 # ---------------
+#updating resource list (By Raul Perez - Microse)
+#sudo apt update
+#sudo apt install software-properties-common
+
+#sudo add-apt-repository ppa:deadsnakes/ppa
+
+#sudo apt install python3.9
+#sudo apt install python3.8-venv
 
 # Update Ubuntu/Xubuntu installation
 # ----------------------------------
@@ -220,7 +228,7 @@ make -j"$(nproc)" && sudo make install
 if [ ! -d  "$SRC_DIR/ngspice-$NGSPICE_VERSION" ]; then
 	echo ">>>> Installing ngspice-$NGSPICE_VERSION"
 	cd "$SRC_DIR" || exit
-	wget --inet4-only https://sourceforge.net/projects/ngspice/files/ng-spice-rework/old-releases/$NGSPICE_VERSION/ngspice-$NGSPICE_VERSION.tar.gz
+	wget --inet4-only https://sourceforge.net/projects/ngspice/files/ng-spice-rework/$NGSPICE_VERSION/ngspice-$NGSPICE_VERSION.tar.gz
 	gunzip ngspice-$NGSPICE_VERSION.tar.gz
 	tar xf ngspice-$NGSPICE_VERSION.tar
 	rm ngspice-$NGSPICE_VERSION.tar
@@ -229,6 +237,7 @@ if [ ! -d  "$SRC_DIR/ngspice-$NGSPICE_VERSION" ]; then
 	./configure --enable-osdi --enable-xspice
 	make -j"$(nproc)" && sudo make install
 fi
+
 
 # Install/update spyci
 # --------------------
@@ -279,8 +288,6 @@ sudo rm -r "$HOME/sky130_ngspice_reram"
 
 
 
-
-
 # Fix paths in xschemrc to point to correct PDK directory
 # -------------------------------------------------------
 sed -i 's/^set SKYWATER_MODELS/# set SKYWATER_MODELS/g' "$PDK_ROOT/$PDK/libs.tech/xschem/xschemrc"
@@ -310,13 +317,35 @@ fi
 	echo '# Institute for Integrated Circuits'
 	echo '# Johannes Kepler University Linz'
 	echo '#'
-	echo "export PDK_ROOT=$MY_PDK_ROOT"
+	echo 'export PDK_ROOT=$HOME/pdk'
 	echo "export PDK=$MY_PDK"
 	echo "export STD_CELL_LIBRARY=$MY_STDCELL"
 	# shellcheck disable=SC2016
 	echo 'cp -f $PDK_ROOT/$PDK/libs.tech/xschem/xschemrc $HOME/.xschem'
 	# shellcheck disable=SC2016
 	echo 'cp -f $PDK_ROOT/$PDK/libs.tech/magic/$PDK.magicrc $HOME/.magicrc'
+	echo '#add a user customizable project path, this will be added when opening and inserting elements'
+	echo '#'
+	echo '# $HOME/Desktop/Xschem can be anything e.g. $HOME/Downloads/Mysims'
+	echo '#'
+	echo '#only mofidy this part of the script'
+	echo 'export custom_dir=$HOME/Desktop/Xschem'
+	echo 'if [ -d "$custom_dir" ]; then'
+	echo '  echo "append XSCHEM_LIBRARY_PATH :$custom_dir" >> $HOME/.xschem/xschemrc'
+	echo '  echo "$custom_dir does exist adding it to the path."'
+	echo 'else'
+	echo '  echo "the directory does not exist, do you want to create it ? y/n"'
+	echo '  read -r -p "[y/N] " response'
+	echo '  if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]'
+	echo '  then'
+	echo '    mkdir $custom_dir'
+	echo '    echo "$custom_dir was created"'
+	echo '    echo "append XSCHEM_LIBRARY_PATH :$custom_dir" >> $HOME/.xschem/xschemrc'
+	echo '  else'
+	echo '    echo "continue without modifications"'
+	echo '  fi'
+	echo 'fi'
+	echo 'echo "set local_netlist_dir 1" >> $HOME/.xschem/xschemrc'
 } > "$HOME/iic-init.sh"
 chmod 750 "$HOME/iic-init.sh"
 
@@ -329,4 +358,5 @@ echo ">>>> make test"
 echo ""
 # shellcheck disable=SC2016
 echo 'Remember to run `source ./iic-init.sh` to initialize environment!'
+
 
