@@ -33,8 +33,8 @@ else
   fi
   
 fi
-
-echo "set local_netlist_dir 1" >> $HOME/.xschem/xschemrc
+echo "set netlist_dir $custom_dir/Raw" >> $HOME/.xschem/xschemrc
+#echo "set local_netlist_dir 1" >> $HOME/.xschem/xschemrc
 
 
 
