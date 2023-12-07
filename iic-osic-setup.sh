@@ -348,7 +348,8 @@ fi
 	echo '    echo "continue without modifications"'
 	echo '  fi'
 	echo 'fi'
-	echo 'echo "set local_netlist_dir 1" >> $HOME/.xschem/xschemrc'
+	echo '#echo "set local_netlist_dir 1" >> $HOME/.xschem/xschemrc'
+ 	echo 'echo "set netlist_dir $custom_dir/Raw" >> $HOME/.xschem/xschemrc'
 } > "$HOME/iic-init.sh"
 chmod 750 "$HOME/iic-init.sh"
 
