@@ -33,20 +33,9 @@ my_dir=$(dirname "$my_path")
 export SCRIPT_DIR="$my_dir"
 export NGSPICE_VERSION=43
 # This selects which sky130 PDK flavor (A=sky130A, B=sky130B, all=both)  is installed
-export OPEN_PDK_ARGS="--with-sky130-variants=all"
+export OPEN_PDK_ARGS="--with-sky130-variants=B"
 export MY_PDK=sky130B
 
-# ---------------
-# Now go to work!
-# ---------------
-#updating resource list (By Raul Perez - Microse)
-#sudo apt update
-#sudo apt install software-properties-common
-
-#sudo add-apt-repository ppa:deadsnakes/ppa
-
-#sudo apt install python3.9
-#sudo apt install python3.8-venv
 
 # Update Ubuntu/Xubuntu installation
 # ----------------------------------
@@ -284,6 +273,7 @@ echo 'set SKYWATER_STDCELLS $env(PDK_ROOT)/$env(PDK)/libs.ref/sky130_fd_sc_hd/sp
 	echo "set num_threads=2"
 	echo "set ngbehavior=hsa"
 	echo "set ng_nomodcheck"
+ 	echo "set set skywaterpdk"
 } > "$HOME/.spiceinit"
 
 # Create iic-init.sh
