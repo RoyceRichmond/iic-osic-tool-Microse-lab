@@ -273,7 +273,6 @@ echo 'set SKYWATER_STDCELLS $env(PDK_ROOT)/$env(PDK)/libs.ref/sky130_fd_sc_hd/sp
 	echo "set num_threads=2"
 	echo "set ngbehavior=hsa"
 	echo "set ng_nomodcheck"
- 	echo "set set skywaterpdk"
 } > "$HOME/.spiceinit"
 
 # Create iic-init.sh
