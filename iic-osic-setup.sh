@@ -60,7 +60,7 @@ sudo apt -qq upgrade -y
 echo ">>>> Installing required (and useful) packages via APT"
 # FIXME ngspice installed separately, as APT version in LTS is too old
 sudo apt -qq install -y docker.io git klayout iverilog gtkwave ghdl \
-	verilator yosys xdot python3 python3-pip python3.10-venv \
+	verilator yosys xdot python3 python3-pip python3.*-venv \
 	build-essential automake autoconf gawk m4 flex bison \
 	octave octave-signal octave-communications octave-control \
 	xterm csh tcsh htop mc gedit vim vim-gtk3 kdiff3 \
@@ -68,7 +68,7 @@ sudo apt -qq install -y docker.io git klayout iverilog gtkwave ghdl \
 	graphicsmagick ghostscript mesa-common-dev libglu1-mesa-dev \
 	libxpm-dev libx11-6 libx11-dev libxrender1 libxrender-dev \
 	libxcb1 libx11-xcb-dev libcairo2 libcairo2-dev  \
-	libxpm4 libxpm-dev libgtk-3-dev
+	libxpm4 libxpm-dev libgtk-3-dev make gcc
 
 
 # Add user to Docker group
@@ -223,8 +223,17 @@ if [ ! -d  "$SRC_DIR/ngspice-$NGSPICE_VERSION" ]; then
 	rm ngspice-$NGSPICE_VERSION.tar
 	cd "$SRC_DIR/ngspice-$NGSPICE_VERSION" || exit
 	sudo apt install -y libxaw7-dev libfftw3-dev libreadline-dev
-	./configure --enable-osdi --enable-xspice
-	make -j"$(nproc)" && sudo make install
+	sudo apt-get install adms
+	sudo apt-get install autoconf
+	sudo apt-get install libtool
+	sudo apt-get install libxaw7-dev
+	sudo apt-get install build-essential
+	sudo apt-get install libc6-dev
+	sudo apt-get install manpages-dev man-db manpages-posix-dev
+	sudo apt-get install libreadline6-dev
+	./configure --enable-osdi --enable-xspice --enable-openmp --with-x --with-readline=yes
+	#./configure --enable-osdi --enable-xspice --enable-openmp –-enable-cuspice --with-x --with-readline=yes with NVDIA DRIVERS PREVIOUSLY CONFIG
+	sudo make -j"$(nproc)" && sudo make install
 fi
 
 
@@ -273,6 +282,7 @@ echo 'set SKYWATER_STDCELLS $env(PDK_ROOT)/$env(PDK)/libs.ref/sky130_fd_sc_hd/sp
 	echo "set num_threads=2"
 	echo "set ngbehavior=hsa"
 	echo "set ng_nomodcheck"
+	echo "set skywaterpdk"
 } > "$HOME/.spiceinit"
 
 # Create iic-init.sh
