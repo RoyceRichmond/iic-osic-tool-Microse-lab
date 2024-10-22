@@ -1,6 +1,8 @@
 
 #!/bin/bash
-
+sudo apt install openssh-server
+sudo ufw allow 22/tcp
+#sudo usermod -aG sudo nombre_usuario
 # Reemplaza 'ral298' con tu nombre de usuario existente
 existing_user=$(whoami)
 
