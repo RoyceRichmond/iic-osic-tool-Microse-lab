@@ -16,6 +16,26 @@ cp -f $PDK_ROOT/$PDK/libs.tech/magic/$PDK.magicrc $HOME/.magicrc
 #only mofidy this part of the script
 export custom_dir=$HOME/Desktop/Xschem
 
+#this line adds a mounted disk in this case a google drive to the explorer of xschem
+#export custom_dir="/mnt/g"
+#
+#to acomplish the mount of a google drive the fstab is modified first
+# sudo gedit /etc/fstab
+# G: /mnt/g drvfs defaults 0 0
+###############
+# the .bashrc has to be modified with this one
+#
+#  if ! mount | grep /mnt/g; then
+#      sudo mount -a
+#  fi
+#
+# this will esentially mount the g if it has not already been mounted on each terminal
+#
+#
+#
+#####################
+
+
 if [ -d "$custom_dir" ]; then
   echo "append XSCHEM_LIBRARY_PATH :$custom_dir" >> $HOME/.xschem/xschemrc
   echo "$custom_dir does exist adding it to the path."
