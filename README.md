@@ -82,3 +82,42 @@ Now it will appear on the schematic and we can save the file with the updated ro
 
 ![alt text](https://github.com/RoyceRichmond/iic-osic-tool-Microse-lab/blob/main/Ref_md/img2.png?raw=true)
 
+# Google Drive and WSL
+WSL is actually able to access the google drive folders as a normal unit, this can help with a more consistent workflow and avoid error with paths with different users etc, the first step to achieve this is to modify the fstab file
+
+```shell
+sudo gedit /etc/fstab
+```
+inside the file add this entry, the letter G: corresponds to the letter assigned to the google drive folder on your windows installation, the /mnt/g has the same value
+```shell
+G: /mnt/g drvfs defaults 0 0
+```
+
+After this step we modify the bashrc to load the configurations automatically each time a new terminal is open
+```shell
+gedit .bashrc
+```
+The .bashrc file is modified with these code
+```shell
+source /home/user_0/iic-init.sh
+if ! mount | grep /mnt/g; then
+    sudo mount -a
+fi
+```
+Finally the iic-init.sh file has to be modify with these values, this will check if the Google Drive storage is already mounted, if so it adds it to the path in xschem otherwise a message will pop up showing that it is not mounted
+```shell
+export custom_dir="/mnt/g/Mi unidad/Xschem"
+
+# Replace space with \ in the path
+escaped_custom_dir="${custom_dir// /\\ }"
+
+echo "Checking directory: $custom_dir"
+
+if [ -d "$custom_dir" ]; then
+  # Append with the escaped space
+  echo "append XSCHEM_LIBRARY_PATH :$escaped_custom_dir" >> $HOME/.xschem/xschemrc
+  echo "$custom_dir does exist, adding it to the path."
+else
+  echo "the directory does not exist, you sure it is mounted ?"
+fi
+```
